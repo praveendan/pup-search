@@ -1,0 +1,9 @@
+$primary: rgba(39, 0, 60);
+$secondary: rgb(255, 169, 0);
+
+@import '~bootstrap/scss/bootstrap';
+
+.bg-primary {
+    --bs-bg-opacity: 0.95 !important;
+    background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
+}

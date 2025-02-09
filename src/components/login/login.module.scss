@@ -1,0 +1,21 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+.loginForm {
+  max-width: 340px
+}
+
+.logoContainer {
+  height: 200px;
+}
+
+.logo {
+  min-width: 150px;
+}
+
+@media (min-width: map-get($grid-breakpoints, "sm")) {
+  .logoContainer {
+    height: unset;
+  }
+}
