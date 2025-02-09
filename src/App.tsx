@@ -1,7 +1,5 @@
 import Container from 'react-bootstrap/Container';
 import Login from './components/login/Login';
-import Login2 from './components/login/Login2';
-
 
 function App() {
   return (

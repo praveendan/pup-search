@@ -1,9 +1,9 @@
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import styles from './login.module.scss';
 import Image from 'react-bootstrap/Image';
-import styles from './login.module.scss'
+import Button from 'react-bootstrap/Button';
 
 const Login: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const Login: React.FC = () => {
         <Image src="img/footer-logo.svg" className={`w-50 mh-100 ${styles.logo}`} />
       </Col>
       <Col sm lg="6" className='bg-secondary d-flex align-items-center flex-grow-1'>
-        <Form className={`mx-auto ${styles.loginForm}`}>
+        <Form className={`mx-auto fw-bold ${styles.loginForm}`}>
           <Form.Group className="mb-3" controlId="loginEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" placeholder="Enter email" />
@@ -25,7 +25,7 @@ const Login: React.FC = () => {
           <Form.Group className="mb-3" controlId="keepMeLoggedInCheckbox">
             <Form.Check type="checkbox" label="Keep me logged in" />
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" className='fw-bold'>
             Login
           </Button>
         </Form>
