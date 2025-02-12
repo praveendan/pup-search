@@ -1,9 +1,5 @@
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
+import { Row, Col, Button, Form, Image } from "react-bootstrap"
 import styles from './login.module.scss';
-import Image from 'react-bootstrap/Image';
-import Button from 'react-bootstrap/Button';
 
 const Login: React.FC = () => {
   return (
