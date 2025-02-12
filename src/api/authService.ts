@@ -13,6 +13,13 @@ const login = async (name: string, email:string) => {
     withCredentials: true
   })
   console.log(res)
+
+  if (res.status === 200) {
+    //good stuff
+  }
+  if (res.status === 400) {
+    //bad userName PW
+  }
 }
 
 export {

@@ -6,14 +6,14 @@ import styles from './login.module.scss';
 import { User } from "../../types/user";
 import { login } from "../../api/authService";
 
-const validateForm = () => {
-
-}
-
 const Login: React.FC = () => {
   const [formVal, setFormVals] = useState<User>({
     name: '',
     email: ''
+  })
+  const [isFormFieldsValid, serIsFormFieldsValid] = useState({
+    name: true,
+    email: true
   })
 
   const setFormData = (e: ChangeEvent<HTMLInputElement>) => {
@@ -23,10 +23,39 @@ const Login: React.FC = () => {
     })
   }
 
+
+  const validateForm = () => {
+    let isValid = true
+    const tempIsFormFieldsValid = {
+      name: true,
+      email: true
+    }
+
+    if (formVal.name.trim() === '') {
+      isValid = false
+      tempIsFormFieldsValid.name = false
+    }
+    if (!formVal.email.toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    )) {
+      tempIsFormFieldsValid.email = false
+      isValid = false
+    }
+
+    return isValid
+  }
+
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    login(formVal.name, formVal.email)
+
+    if (validateForm()) {
+      login(formVal.name, formVal.email)
+    } else {
+      console.log('no bueno')
+    }
   }
+
 
   return (
     <Row className='min-vh-100 flex-column flex-sm-row'>
