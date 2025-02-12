@@ -2,7 +2,7 @@ import { Navbar, Container, Nav, Image } from "react-bootstrap"
 
 const Header: React.FC = () => {
   return (
-    <header className="row fw-bold">
+    <header className="row fw-bold sticky-top">
       <Navbar expand="lg" bg="primary" data-bs-theme="dark">
         <Container>
           <Navbar.Brand href="#home">
