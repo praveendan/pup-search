@@ -5,8 +5,8 @@ import Search from './components/search/Search';
 function App() {
   return (
     <Container fluid className='min-vh-100'>
-      {/* <Login /> */}
-      <Search />
+      <Login />
+      {/* <Search /> */}
     </Container>
   );
 }
