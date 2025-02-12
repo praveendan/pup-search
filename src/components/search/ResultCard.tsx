@@ -1,6 +1,6 @@
-import { Card } from "react-bootstrap"
+import { Card } from "react-bootstrap";
 import { Star } from 'react-bootstrap-icons';
-import styles from './resultCard.module.scss'
+import styles from './resultCard.module.scss';
 
 
 type ResultCardProps = {
