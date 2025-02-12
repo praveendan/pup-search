@@ -1,11 +1,11 @@
-import Select from 'react-select'
-import { Form, Button, InputGroup } from "react-bootstrap"
+import Select from 'react-select';
+import { Form, Button, InputGroup } from "react-bootstrap";
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
   { value: 'strawberry', label: 'Strawberry' },
   { value: 'vanilla', label: 'Vanilla' }
-]
+];
 
 const SearchForm: React.FC = () => {
   return (

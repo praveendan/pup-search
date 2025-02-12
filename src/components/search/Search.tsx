@@ -1,6 +1,7 @@
-import React from "react"
-import { Container, Row, Col, Button, Dropdown, DropdownButton, ButtonGroup } from "react-bootstrap"
-import Header from "../shared/Header"
+import React from "react";
+import { Container, Row, Col, Button, Dropdown, DropdownButton, ButtonGroup } from "react-bootstrap";
+import { Hearts } from 'react-bootstrap-icons';
+import Header from "../shared/Header";
 import SearchForm from "./SearchForm";
 import ResultCard from "./ResultCard";
 
@@ -43,7 +44,7 @@ const Search: React.FC = () => {
             </Row>
             <div className="fixed-bottom d-flex justify-content-center p-2">
               <Button variant="primary" type="submit">
-                Submit
+                Submit <Hearts/>
               </Button>
             </div>
           </Col>
