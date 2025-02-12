@@ -14,7 +14,7 @@ const Search: React.FC = () => {
   return (
     <>
       <Header />
-      <Container className="mt-5">
+      <Container className="mt-5" fluid="xxl">
         <Row>
           <Col lg="3" className="border-right">
             <SearchForm />
