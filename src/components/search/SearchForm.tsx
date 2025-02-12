@@ -7,7 +7,7 @@ const options = [
   { value: 'vanilla', label: 'Vanilla' }
 ]
 
-const SearchForm = () => {
+const SearchForm: React.FC = () => {
   return (
     <Form>
       <Form.Group className="mb-3" controlId="breedsSelect">
