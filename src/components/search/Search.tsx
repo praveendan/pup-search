@@ -14,13 +14,13 @@ const Search: React.FC = () => {
   return (
     <>
       <Header />
-      <Container>
+      <Container className="mt-5">
         <Row>
           <Col lg="3" className="border-right">
             <SearchForm />
           </Col>
           <Col lg="9" className="pb-5">
-            <div className="w-100 p-2 d-flex justify-content-end">
+            <div className="w-100 px-2 pb-5 d-flex justify-content-end">
               <DropdownButton
                 as={ButtonGroup}
                 size="sm"
