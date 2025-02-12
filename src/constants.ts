@@ -1,0 +1,1 @@
+export const ENDPOINT = 'https://frontend-take-home-service.fetch.com';
