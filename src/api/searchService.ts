@@ -130,6 +130,7 @@ const getDogSearchResults = async (
     })
     console.log(res)
 
+    //need to handle 100 dog Id
     const dogDataRes = await axios.post(ENDPOINT + '/dogs', res.data.resultIds as string[], API_BASE_HEADERS)
     console.log(dogDataRes)
 
@@ -175,6 +176,34 @@ const getOtherPageResults = async (query: string) => {
       total: res.data.total
     }
 
+  } catch (error: any) {
+    handleErrorRes(error, response)
+  }
+  return response
+}
+
+
+const findMatch = async (dogIds: string[]) => {
+  interface DogSearchResultRes extends ServiceResponse {
+    data: DogSearch
+  }
+  let response: DogSearchResultRes = {
+    data: {
+      results: [],
+      total: 0
+    }
+  }
+
+  try {
+    const res = await axios.post(ENDPOINT + '/dogs/match', dogIds, API_BASE_HEADERS)
+
+    const dogDataRes = await axios.post(ENDPOINT + '/dogs', [res.data.match as string], API_BASE_HEADERS)
+
+    response.data = {
+      results: dogDataRes.data,
+      total: res.data.total
+    }
+
     if (res.data.next) {
       response.data.next = res.data.next
     }
@@ -190,6 +219,7 @@ const getOtherPageResults = async (query: string) => {
 }
 
 export {
+  findMatch,
   getBreeds,
   getZipcodes,
   getDogSearchResults,

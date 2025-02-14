@@ -1,18 +1,19 @@
 import React, { useCallback, useState } from "react";
-import { Container, Row, Col, Button, Dropdown, DropdownButton, ButtonGroup, Pagination } from "react-bootstrap";
-import { Hearts } from 'react-bootstrap-icons';
+import { Container, Row, Col, Dropdown, DropdownButton, ButtonGroup, Pagination } from "react-bootstrap";
 import Header from "../shared/Header";
 import SearchForm from "./SearchForm";
 import ResultCard from "./ResultCard";
 import { DogSearch } from "../../types/search";
 import { MAX_SEARCH_RES_PER_PAGE } from "../../constants";
 import { getOtherPageResults } from "../../api/searchService";
+import FindAMatchPane from "./FindAMatchPane";
 
 const Search: React.FC = () => {
   const [dogs, setDogs] = useState<DogSearch>({
     results: [],
     total: 0
   })
+  const [favourites, setFavourites] = useState<Set<string>>(new Set())
   const [isPageBusy, setIsPageBusy] = useState(false)
 
   const pageForward = async () => {
@@ -37,6 +38,16 @@ const Search: React.FC = () => {
     setDogs(data)
   }, [])
 
+  const addRemoveFavourite = (dogId: string) => {
+    const tempSet = new Set(favourites)
+    if (tempSet.has(dogId)) {
+      tempSet.delete(dogId)
+    } else {
+      tempSet.add(dogId)
+    }
+    setFavourites(tempSet)
+  }
+
   return (
     <>
       <Header />
@@ -60,8 +71,8 @@ const Search: React.FC = () => {
             <Row>
               {
                 dogs.results.map(dog => (
-                  <Col md="6" lg="4" xl="3" className="py-2">
-                    <ResultCard key={dog.id} dog={dog} />
+                  <Col md="6" lg="4" xl="3" className="py-2" key={dog.id}>
+                    <ResultCard key={dog.id} dog={dog} favourites={favourites} addRemoveFavourite={addRemoveFavourite} />
                   </Col>
                 ))
               }
@@ -78,11 +89,7 @@ const Search: React.FC = () => {
                 </Row>
               )
             }
-            <div className="fixed-bottom d-flex justify-content-center p-2">
-              <Button variant="primary" type="submit">
-                Submit <Hearts/>
-              </Button>
-            </div>
+            <FindAMatchPane favourites={favourites}/>
           </Col>
         </Row>
       </Container>

@@ -1,13 +1,15 @@
 import { Card } from "react-bootstrap";
-import { Star } from 'react-bootstrap-icons';
+import { Star, StarFill } from 'react-bootstrap-icons';
 import styles from './resultCard.module.scss';
 import { Dog } from "../../types/search";
 
 type ResultCardProps = {
   dog: Dog;
+  favourites: Set<string>;
+  addRemoveFavourite: (dogId: string) => void;
 }
 
-const ResultCard: React.FC<ResultCardProps> = ({ dog }) => {
+const ResultCard: React.FC<ResultCardProps> = ({ dog, favourites, addRemoveFavourite }) => {
   return (
     <Card className="shadow-sm">
       <Card.Img variant="top" className={styles.resultCardImg} src={dog.img} />
@@ -18,7 +20,9 @@ const ResultCard: React.FC<ResultCardProps> = ({ dog }) => {
         <Card.Text className="text-muted"><small>Zip: {dog.zip_code}</small></Card.Text>
       </Card.Body>
       <Card.Footer>
-        <Star className={styles.favourite } />
+        {
+          favourites.has(dog.id) ? <StarFill className={styles.favourite} onClick={_ => addRemoveFavourite(dog.id)} role="button"/> : <Star className={styles.favourite} onClick={_ => addRemoveFavourite(dog.id)} role="button"/>
+        }
       </Card.Footer>
     </Card>
   )
