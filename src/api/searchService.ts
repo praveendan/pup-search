@@ -34,10 +34,7 @@ const getBreeds = async () => {
     response.data = res.data
 
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      response.resData = error.response
-    }
-    response.message = error.message
+    handleErrorRes(error, response)
   }
   return response
 }
