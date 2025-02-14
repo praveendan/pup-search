@@ -92,7 +92,7 @@ const getZipcodes = async (northEast: Region, southWest: Region ) => {
  * @param zipcodes array of zips
  * @param age ab object containing min and max
  * @param sorting object specifying the sort param
- * @returns a promise that resolves into
+ * @returns a promise that resolves into search data
  */
 const getDogSearchResults = async (
   breeds: string[],
