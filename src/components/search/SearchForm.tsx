@@ -10,9 +10,10 @@ import styles from './searchform.module.scss'
 
 type SearchFormProps = {
   updateDogsSearch: (data: DogSearch) => void;
+  sortResultByBreedAsc: boolean;
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch }) => {
+const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByBreedAsc }) => {
   const [breedsArr, setBreedsArr] = useState<MultiValue<{ value: string; label: string; }>>([])
 
   const [selectedBreeds, setSelectedBreeds] = useState<MultiValue<{ value: string; label: string; }>>([])
@@ -56,7 +57,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch }) => {
     const searchResults = await getDogSearchResults(
       selectedBreeds.map(breed => breed.label),
       zipCodes.current,
-      { min: age.minAge, max: age.maxAge }
+      { min: age.minAge, max: age.maxAge },
+      { key: 'breed', direction: sortResultByBreedAsc ? 'asc' : 'desc' }
     )
 
     updateDogsSearch(searchResults.data)
@@ -81,7 +83,6 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch }) => {
       updateDogsSearch(searchResults.data)
     }
 
-    
     Promise.all([
       loadBreeds(),
       loadAllDogs()
@@ -102,7 +103,6 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch }) => {
     region?.northEast,
     region?.southWest
   ])
-
 
   return (
     <Form>

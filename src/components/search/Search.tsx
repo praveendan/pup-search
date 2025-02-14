@@ -15,6 +15,7 @@ const Search: React.FC = () => {
   })
   const [favourites, setFavourites] = useState<Set<string>>(new Set())
   const [isPageBusy, setIsPageBusy] = useState(false)
+  const [sortResultByBreedAsc, setSortResultByBreedAsc] = useState('true')
 
   const pageForward = async () => {
     if (dogs.next) {
@@ -44,6 +45,10 @@ const Search: React.FC = () => {
     setFavourites(tempSet)
   }
 
+  const handleSelect = (eventKey: any) => {
+    setSortResultByBreedAsc(eventKey)
+  };
+
   const updateDogsSearch = useCallback((data: DogSearch) => {
     setDogs(data)
   }, [])
@@ -54,7 +59,7 @@ const Search: React.FC = () => {
       <Container className="mt-5" fluid="xxl">
         <Row>
           <Col lg="3" className="border-right">
-            <SearchForm updateDogsSearch={updateDogsSearch} />
+            <SearchForm updateDogsSearch={updateDogsSearch} sortResultByBreedAsc={sortResultByBreedAsc === 'true'}/>
           </Col>
           <Col lg="9" className="pb-5">
             <div className="w-100 px-2 pb-5 d-flex justify-content-end">
@@ -62,10 +67,11 @@ const Search: React.FC = () => {
                 as={ButtonGroup}
                 size="sm"
                 variant="primary"
-                title="Sort by"
+                title={`Sort by Breed ${sortResultByBreedAsc === 'true' ? 'Ascending' : 'Descending'}`}
+                onSelect={handleSelect}
               >
-                <Dropdown.Item eventKey="1">Breed Ascending</Dropdown.Item>
-                <Dropdown.Item eventKey="2">Breed Descending</Dropdown.Item>
+                <Dropdown.Item eventKey="true">Breed Ascending</Dropdown.Item>
+                <Dropdown.Item eventKey="false">Breed Descending</Dropdown.Item>
               </DropdownButton>
             </div>
             <Row>
