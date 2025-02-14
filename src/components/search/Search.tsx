@@ -48,6 +48,10 @@ const Search: React.FC = () => {
     setFavourites(tempSet)
   }
 
+  const updateDogsSearch = useCallback((data: DogSearch) => {
+    setDogs(data)
+  }, [])
+
   return (
     <>
       <Header />
