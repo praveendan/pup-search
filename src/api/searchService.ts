@@ -89,7 +89,68 @@ const getZipcodes = async (northEast: Region, southWest: Region ) => {
   return response
 }
 
+/**
+ * 
+ * @param breeds array of breeds
+ * @param zipcodes array of zips
+ * @param age ab object containing min and max
+ * @param sorting object specifying the sort param
+ * @returns a promise that resolves into
+ */
+const getDogSearchResults = async (
+  breeds: string[],
+  zipcodes: string[],
+  age: {
+    min: string,
+    max: string,
+  },
+  sorting: { key: string; direction: 'asc' | 'desc' } = {
+    key: 'breed', direction: 'asc'
+  }) => {
+  interface DogSearchResultRes extends ServiceResponse {
+    data: DogSearch
+  }
+  let response: DogSearchResultRes = {
+    data: {
+      results: [],
+      next: '',
+      back: '',
+      total: 0
+    }
+  }
+
+  try {
+    const res = await axios.get(ENDPOINT + '/dogs/search', {
+      params: {
+        breeds,
+        zipcodes,
+        ageMin: age.min,
+        ageMax: age.max,
+        sort: `${sorting.key}:${sorting.direction}`,
+        size: MAX_SEARCH_RES_PER_PAGE
+      },
+      ...API_BASE_HEADERS
+    })
+    console.log(res)
+
+    const dogDataRes = await axios.post(ENDPOINT + '/dogs', res.data.resultIds as string[], API_BASE_HEADERS)
+    console.log(dogDataRes)
+
+    response.data = {
+      results: dogDataRes.data,
+      next: res.data.next || '',
+      back: res.data.back || '',
+      total: res.data.total
+    }
+
+  } catch (error: any) {
+    handleErrorRes(error, response)
+  }
+  return response
+}
+
 export {
   getBreeds,
-  getZipcodes
+  getZipcodes,
+  getDogSearchResults
 }

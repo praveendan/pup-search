@@ -11,3 +11,5 @@ export const MAP_TILE_LAYER_URL = 'https://server.arcgisonline.com/ArcGIS/rest/s
 export const MAP_ATTRIBUTION = 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri';
 
 export const MAX_ZIPS = 100
+
+export const MAX_SEARCH_RES_PER_PAGE = 20

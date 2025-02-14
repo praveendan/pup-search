@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Container, Row, Col, Button, Dropdown, DropdownButton, ButtonGroup } from "react-bootstrap";
 import { Hearts } from 'react-bootstrap-icons';
 import Header from "../shared/Header";
 import SearchForm from "./SearchForm";
 import ResultCard from "./ResultCard";
+import { DogSearch } from "../../types/search";
 
 const items: number[] = [];
 (function () {
@@ -13,13 +14,24 @@ const items: number[] = [];
   }
 })();
 const Search: React.FC = () => {
+  const [dogs, setDogs] = useState<DogSearch>({
+    results: [],
+    next: '',
+    back: '',
+    total: 0
+  })
+
+  const updateDogsSearch = useCallback((data: DogSearch) => {
+    setDogs(data)
+  }, [])
+
   return (
     <>
       <Header />
       <Container className="mt-5" fluid="xxl">
         <Row>
           <Col lg="3" className="border-right">
-            <SearchForm />
+            <SearchForm updateDogsSearch={updateDogsSearch} />
           </Col>
           <Col lg="9" className="pb-5">
             <div className="w-100 px-2 pb-5 d-flex justify-content-end">
@@ -35,9 +47,9 @@ const Search: React.FC = () => {
             </div>
             <Row>
               {
-                items.map(i => (
+                dogs.results.map(dog => (
                   <Col md="6" lg="4" xl="3" className="py-2">
-                    <ResultCard id={i} />
+                    <ResultCard key={dog.id} dog={dog} />
                   </Col>
                 ))
               }

@@ -2,3 +2,11 @@
   color: rgb(var(--bs-secondary-rgb));
   float: right;
 }
+
+.resultCardImg {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
