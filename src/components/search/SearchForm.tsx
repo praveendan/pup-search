@@ -102,7 +102,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByB
 
     loadAll()
 
-  }, [updateDogsSearch])
+  }, [handle, setIsLoading, updateDogsSearch])
 
   useEffect(() => {
     const loadZips = async () => {
@@ -114,10 +114,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByB
       }
     }
     loadZips()
-  }, [
-    region?.northEast,
-    region?.southWest
-  ])
+  }, [handle, region?.northEast, region?.southWest])
 
   return (
     <Form>

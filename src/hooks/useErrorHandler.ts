@@ -13,7 +13,7 @@ const useErrorHandler = () => {
       logOutUser()
       navigate("/login")
     }
-  },[])
+  },[logOutUser, navigate])
 
   return { handle };
 }
