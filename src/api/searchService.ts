@@ -3,9 +3,13 @@ import { ServiceResponse } from "./types"
 import { ENDPOINT } from "../constants"
 import { Region } from "../types/search"
 
+/**
+ * 
+ * @returns a string array of dog breeds
+ */
 const getBreeds = async () => {
   interface BreedRes extends ServiceResponse {
-    data: string[]
+    data: string[];
   }
   let response: BreedRes = {
     data: []
