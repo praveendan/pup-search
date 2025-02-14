@@ -1,7 +1,14 @@
 import axios from "axios"
 import { ServiceResponse } from "./types"
-import { ENDPOINT, MAX_ZIPS } from "../constants"
-import { Region } from "../types/search"
+import { ENDPOINT, MAX_SEARCH_RES_PER_PAGE, MAX_ZIPS } from "../constants"
+import { Region, DogSearch } from "../types/search"
+
+const API_BASE_HEADERS = {
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  withCredentials: true
+}
 
 const handleErrorRes = (error: any, response: ServiceResponse) => {
   if (axios.isAxiosError(error)) {
@@ -23,12 +30,7 @@ const getBreeds = async () => {
   }
 
   try {
-    const res = await axios.get(ENDPOINT + '/dogs/breeds', {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
+    const res = await axios.get(ENDPOINT + '/dogs/breeds', API_BASE_HEADERS)
 
     console.log(res)
     response.data = res.data
@@ -72,12 +74,7 @@ const getZipcodes = async (northEast: Region, southWest: Region ) => {
         }
       },
       size: MAX_ZIPS
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
+    }, API_BASE_HEADERS)
     response.data = {
       results: res.data.results.map((resItem: { zip_code: any }) => resItem.zip_code),
       total: res.data.total
