@@ -9,6 +9,7 @@ const useErrorHandler = () => {
 
   const handle = useCallback((res: ServiceResponse) => {
     if (res.resData && res.resData.status === 401) {
+      alert("Authentication Error.! Navigating back to Login page")
       
       logOutUser()
       navigate("/login")
