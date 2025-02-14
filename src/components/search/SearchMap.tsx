@@ -27,7 +27,7 @@ const RecenterAutomatically = () => {
   return null;
 };
 
-const GetBounds:React.FC<SearchMapProps> = ({setBoundingBox}) => {
+const GetBounds: React.FC<SearchMapProps> = ({ setBoundingBox }) => {
   const map = useMap();
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import { getBreeds, getZipcodes } from '../../api/searchService';
 import SearchMap from './SearchMap';
 import { LatLng } from 'leaflet';
 import { Region } from '../../types/search';
+import { MAX_ZIPS } from '../../constants';
 
 const SearchForm: React.FC = () => {
   const [breedsArr, setBreedsArr] = useState<MultiValue<{ value: string; label: string; }>>([])
@@ -17,10 +18,12 @@ const SearchForm: React.FC = () => {
     minAge: '0',
     maxAge: ''
   })
+
   const [region, setRegion] = useState<{
     northEast: Region;
     southWest: Region
   }>()
+  const [totalNumberOfZips, setTotalNumberOfZips] = useState<number>(0)
 
   const setAgeData = (e: ChangeEvent<HTMLInputElement>) => {
     setAge({
@@ -57,7 +60,8 @@ const SearchForm: React.FC = () => {
   useEffect(() => {
     const loadZips = async () => {
       if (region?.northEast && region?.southWest) {
-        await getZipcodes(region?.northEast, region?.southWest)
+        const zipCodeRes = await getZipcodes(region?.northEast, region?.southWest)
+        setTotalNumberOfZips(zipCodeRes.data.total)
       }
     }
 
@@ -86,7 +90,21 @@ const SearchForm: React.FC = () => {
       </Form.Group>
       <Form.Group className="mb-3" controlId="zipSelect">
         <Form.Label>Select Area</Form.Label>
-        <SearchMap setBoundingBox={setBoundingBox } />
+        <SearchMap setBoundingBox={setBoundingBox} />
+        {
+          MAX_ZIPS < totalNumberOfZips && (
+            <Form.Text className="text-danger">
+              Too many location results. Please zoom in.
+            </Form.Text>
+          )
+        }
+        {
+          totalNumberOfZips === 0 && (
+            <Form.Text className="text-danger">
+              No location results. Please zoom out.
+            </Form.Text>
+          )
+        }
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="ageRange">
