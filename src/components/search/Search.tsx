@@ -34,10 +34,6 @@ const Search: React.FC = () => {
     }
   }
 
-  const updateDogsSearch = useCallback((data: DogSearch) => {
-    setDogs(data)
-  }, [])
-
   const addRemoveFavourite = (dogId: string) => {
     const tempSet = new Set(favourites)
     if (tempSet.has(dogId)) {
