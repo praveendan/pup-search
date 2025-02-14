@@ -11,9 +11,11 @@ import styles from './searchform.module.scss'
 type SearchFormProps = {
   updateDogsSearch: (data: DogSearch) => void;
   sortResultByBreedAsc: boolean;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByBreedAsc }) => {
+const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByBreedAsc, isLoading, setIsLoading }) => {
   const [breedsArr, setBreedsArr] = useState<MultiValue<{ value: string; label: string; }>>([])
 
   const [selectedBreeds, setSelectedBreeds] = useState<MultiValue<{ value: string; label: string; }>>([])
@@ -54,6 +56,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByB
 
   const loadSearchResults = async (e: MouseEvent<HTMLElement>) => {
     e.preventDefault()
+    setIsLoading(true)
     const searchResults = await getDogSearchResults(
       selectedBreeds.map(breed => breed.label),
       zipCodes.current,
@@ -62,6 +65,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByB
     )
 
     updateDogsSearch(searchResults.data)
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -83,10 +87,17 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByB
       updateDogsSearch(searchResults.data)
     }
 
-    Promise.all([
-      loadBreeds(),
-      loadAllDogs()
-    ])
+    const loadAll = async () => {
+      await Promise.all([
+        loadBreeds(),
+        loadAllDogs()
+      ])
+
+      setIsLoading(false)
+    }
+
+    loadAll()
+
   }, [updateDogsSearch])
 
   useEffect(() => {
@@ -145,7 +156,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByB
           <Form.Control aria-label="Max age" name="maxAge" type='number' step={1} placeholder='max' min={age.minAge} value={age.maxAge} onChange={setAgeData} />
         </InputGroup>
       </Form.Group>
-      <Button variant="primary" type="submit" disabled={MAX_ZIPS < totalNumberOfZips} onClick={loadSearchResults}>
+      <Button variant="primary" type="submit" disabled={MAX_ZIPS < totalNumberOfZips || isLoading} onClick={loadSearchResults}>
         Search
       </Button>
     </Form>

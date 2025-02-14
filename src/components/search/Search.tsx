@@ -7,6 +7,7 @@ import { DogSearch } from "../../types/search";
 import { MAX_SEARCH_RES_PER_PAGE } from "../../constants";
 import { getOtherPageResults } from "../../api/searchService";
 import FindAMatchPane from "./FindAMatchPane";
+import Loader from "../shared/Loader";
 
 const Search: React.FC = () => {
   const [dogs, setDogs] = useState<DogSearch>({
@@ -14,7 +15,7 @@ const Search: React.FC = () => {
     total: 0
   })
   const [favourites, setFavourites] = useState<Set<string>>(new Set())
-  const [isPageBusy, setIsPageBusy] = useState(false)
+  const [isPageBusy, setIsPageBusy] = useState(true)
   const [sortResultByBreedAsc, setSortResultByBreedAsc] = useState('true')
 
   const pageForward = async () => {
@@ -53,13 +54,20 @@ const Search: React.FC = () => {
     setDogs(data)
   }, [])
 
+  const setIsLoading = useCallback((isLoading: boolean) => setIsPageBusy(isLoading), [])
+
   return (
     <>
       <Header />
       <Container className="mt-5" fluid="xxl">
         <Row>
           <Col lg="3" className="border-right">
-            <SearchForm updateDogsSearch={updateDogsSearch} sortResultByBreedAsc={sortResultByBreedAsc === 'true'}/>
+            <SearchForm
+              updateDogsSearch={updateDogsSearch}
+              sortResultByBreedAsc={sortResultByBreedAsc === 'true'}
+              isLoading={isPageBusy}
+              setIsLoading={setIsLoading}
+            />
           </Col>
           <Col lg="9" className="pb-5">
             <div className="w-100 px-2 pb-5 d-flex justify-content-end">
@@ -98,6 +106,7 @@ const Search: React.FC = () => {
             <FindAMatchPane favourites={favourites}/>
           </Col>
         </Row>
+        <Loader show={isPageBusy} />
       </Container>
     </>
   )
