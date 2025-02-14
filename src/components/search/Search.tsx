@@ -75,7 +75,7 @@ const Search: React.FC = () => {
                 as={ButtonGroup}
                 size="sm"
                 variant="primary"
-                title={`Sort by Breed ${sortResultByBreedAsc === 'true' ? 'Ascending' : 'Descending'}`}
+                title={`Sort by Breed ${sortResultByBreedAsc === 'true' ? 'Ascending' : 'Descending'} (click on search to sort)`}
                 onSelect={handleSelect}
               >
                 <Dropdown.Item eventKey="true">Breed Ascending</Dropdown.Item>
