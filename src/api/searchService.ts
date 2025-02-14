@@ -176,6 +176,14 @@ const getOtherPageResults = async (query: string) => {
       total: res.data.total
     }
 
+    if (res.data.next) {
+      response.data.next = res.data.next
+    }
+
+    if (res.data.prev) {
+      response.data.back = res.data.prev
+    }
+    
   } catch (error: any) {
     handleErrorRes(error, response)
   }
@@ -202,14 +210,6 @@ const findMatch = async (dogIds: string[]) => {
     response.data = {
       results: dogDataRes.data,
       total: res.data.total
-    }
-
-    if (res.data.next) {
-      response.data.next = res.data.next
-    }
-
-    if (res.data.prev) {
-      response.data.back = res.data.prev
     }
 
   } catch (error: any) {
