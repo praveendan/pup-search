@@ -1,10 +1,7 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { ENDPOINT } from "../constants";
+import { ServiceResponse } from "./types";
 
-interface ServiceResponse {
-  message?: string;
-  data?: AxiosResponse<any, any>;
-}
 
 const login = async (name: string, email: string) => {
   let response: ServiceResponse = { }
@@ -17,15 +14,34 @@ const login = async (name: string, email: string) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      // withCredentials: true
+      withCredentials: true
     })
     response.data = res
 
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
-      if (error.status === 400) {
-        response.data = error.response
-      }
+      response.data = error.response
+    }
+    response.message = error.message
+  }
+  return response
+}
+
+const logout = async () => {
+  let response: ServiceResponse = {}
+
+  try {
+    const res = await axios.post(ENDPOINT + '/auth/logout', {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    })
+    response.resData = res
+
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      response.resData = error.response
     }
     response.message = error.message
   }
@@ -33,5 +49,6 @@ const login = async (name: string, email: string) => {
 }
 
 export {
-  login
+  login,
+  logout
 }

@@ -1,6 +1,22 @@
 import { Navbar, Container, Nav, Image } from "react-bootstrap"
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../api/authService"
+import { useAuth } from "../../context/AuthContext"
 
 const Header: React.FC = () => {
+  const { logOutUser } = useAuth()
+  const navigate = useNavigate();
+
+  const logoutUser = async () => {
+    const logoutRes = await logout()
+    if (logoutRes.resData?.status !== 200) {
+      alert('Error logging out. please try again later.')
+      return
+    }
+
+    logOutUser()
+    navigate("/login")
+  }
   return (
     <header className="row fw-bold sticky-top">
       <Navbar expand="lg" bg="primary" data-bs-theme="dark">
@@ -11,7 +27,7 @@ const Header: React.FC = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
+              <Nav.Link href="#" onClick={logoutUser}>Logout</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

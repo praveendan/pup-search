@@ -59,15 +59,23 @@ const Login: React.FC = () => {
   const handleLogin = async () => {
     setIsLoading(true)
     const loginRes = await login(formVal.name, formVal.email)
-    if (loginRes.data?.status === 400) {
+    setIsLoading(false)
+  
+    if (loginRes.resData?.status === 400) {
       setIsFormFieldsValid({
         name: false,
         email: false
       })
+      return
     }
+
+    if (loginRes.resData?.status !== 200) {
+      alert('Error logging in. please try again later.')
+      return
+    }
+  
     logInUser()
     navigate("/")
-    setIsLoading(false)
   }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
