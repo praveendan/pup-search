@@ -4,7 +4,7 @@ import styles from './resultCard.module.scss';
 
 
 type ResultCardProps = {
-  id: number
+  id: number;
 }
 
 const ResultCard: React.FC<ResultCardProps> = ({id}) => {

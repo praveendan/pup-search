@@ -8,7 +8,7 @@ import { CENTER_OF_USA, MAP_ATTRIBUTION, MAP_TILE_LAYER_URL } from "../../consta
 
 
 type SearchMapProps = {
-  setBoundingBox: (northEast: LatLng, southWest: LatLng) => void
+  setBoundingBox: (northEast: LatLng, southWest: LatLng) => void;
 }
 
 const RecenterAutomatically = () => {
@@ -49,7 +49,9 @@ const SearchMap: React.FC<SearchMapProps> = ({ setBoundingBox }) => {
     <MapContainer
       doubleClickZoom={false}
       id="searchMap"
-      zoom={15}
+      zoom={10}
+      zoomSnap={0.01}
+      zoomDelta={0.01}
       center={CENTER_OF_USA}
       className={styles.searchMap}
     >
