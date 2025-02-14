@@ -8,12 +8,7 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
 
   const logoutUser = async () => {
-    const logoutRes = await logout()
-    if (logoutRes.resData?.status !== 200) {
-      alert('Error logging out. please try again later.')
-      return
-    }
-
+    await logout()
     logOutUser()
     navigate("/login")
   }
