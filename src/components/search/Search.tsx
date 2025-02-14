@@ -1,25 +1,37 @@
 import React, { useCallback, useState } from "react";
-import { Container, Row, Col, Button, Dropdown, DropdownButton, ButtonGroup } from "react-bootstrap";
+import { Container, Row, Col, Button, Dropdown, DropdownButton, ButtonGroup, Pagination } from "react-bootstrap";
 import { Hearts } from 'react-bootstrap-icons';
 import Header from "../shared/Header";
 import SearchForm from "./SearchForm";
 import ResultCard from "./ResultCard";
 import { DogSearch } from "../../types/search";
+import { MAX_SEARCH_RES_PER_PAGE } from "../../constants";
+import { getOtherPageResults } from "../../api/searchService";
 
-const items: number[] = [];
-(function () {
-  // Function body
-  for (let i = 0; i < 30; i++) {
-    items.push(i)
-  }
-})();
 const Search: React.FC = () => {
   const [dogs, setDogs] = useState<DogSearch>({
     results: [],
-    next: '',
-    back: '',
     total: 0
   })
+  const [isPageBusy, setIsPageBusy] = useState(false)
+
+  const pageForward = async () => {
+    if (dogs.next) {
+      setIsPageBusy(true)
+      const res = await getOtherPageResults(dogs.next)
+      setDogs(res.data)
+      setIsPageBusy(false)
+    }
+  }
+
+  const pageBackward = async() => {
+    if (dogs.back) {
+      setIsPageBusy(true)
+      const res = await getOtherPageResults(dogs.back)
+      setDogs(res.data)
+      setIsPageBusy(false)
+    }
+  }
 
   const updateDogsSearch = useCallback((data: DogSearch) => {
     setDogs(data)
@@ -54,6 +66,18 @@ const Search: React.FC = () => {
                 ))
               }
             </Row>
+            {
+              MAX_SEARCH_RES_PER_PAGE < dogs.total && (
+                <Row>
+                  <Col className="d-flex justify-content-end">
+                    <Pagination>
+                      <Pagination.Prev onClick={pageBackward} disabled={!dogs.back || isPageBusy} />
+                      <Pagination.Next onClick={pageForward} disabled={!dogs.next || isPageBusy} />
+                    </Pagination>
+                  </Col>
+                </Row>
+              )
+            }
             <div className="fixed-bottom d-flex justify-content-center p-2">
               <Button variant="primary" type="submit">
                 Submit <Hearts/>
