@@ -32,7 +32,6 @@ const getBreeds = async () => {
   try {
     const res = await axios.get(ENDPOINT + '/dogs/breeds', API_BASE_HEADERS)
 
-    console.log(res)
     response.data = res.data
 
   } catch (error: any) {
@@ -128,11 +127,9 @@ const getDogSearchResults = async (
       },
       ...API_BASE_HEADERS
     })
-    console.log(res)
 
     //need to handle 100 dog Id
     const dogDataRes = await axios.post(ENDPOINT + '/dogs', res.data.resultIds as string[], API_BASE_HEADERS)
-    console.log(dogDataRes)
 
     response.data = {
       results: dogDataRes.data,
@@ -183,7 +180,7 @@ const getOtherPageResults = async (query: string) => {
     if (res.data.prev) {
       response.data.back = res.data.prev
     }
-    
+
   } catch (error: any) {
     handleErrorRes(error, response)
   }

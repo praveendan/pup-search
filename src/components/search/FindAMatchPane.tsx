@@ -22,7 +22,6 @@ const FindAMatchPane: React.FC<FindAMatchPaneProps> = ({ favourites }) => {
 
   const loadMatch = async () => {
     const res = await findMatch(Array.from(favourites))
-    console.log(res)
     setMatch(res.data.results[0])
     setModalShow(true)
   }
