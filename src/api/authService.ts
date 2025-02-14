@@ -1,7 +1,6 @@
 import axios from "axios";
-import { ENDPOINT } from "../constants";
 import { ServiceResponse } from "./types";
-
+import { API_BASE_HEADERS, ENDPOINT } from "../appSettings";
 
 const login = async (name: string, email: string) => {
   let response: ServiceResponse = { }
@@ -10,12 +9,7 @@ const login = async (name: string, email: string) => {
     const res = await axios.post(ENDPOINT + '/auth/login', {
       name,
       email
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
+    }, API_BASE_HEADERS)
     response.resData = res
 
   } catch (error: any) {

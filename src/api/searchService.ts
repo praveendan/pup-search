@@ -1,14 +1,8 @@
 import axios from "axios"
 import { ServiceResponse } from "./types"
-import { ENDPOINT, MAX_SEARCH_RES_PER_PAGE, MAX_ZIPS } from "../constants"
+import { MAX_SEARCH_RES_PER_PAGE, MAX_ZIPS } from "../constants"
 import { Region, DogSearch } from "../types/search"
-
-const API_BASE_HEADERS = {
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  withCredentials: true
-}
+import { API_BASE_HEADERS, ENDPOINT } from "../appSettings"
 
 const handleErrorRes = (error: any, response: ServiceResponse) => {
   if (axios.isAxiosError(error)) {
