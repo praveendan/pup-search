@@ -7,6 +7,7 @@ import { LatLng } from 'leaflet';
 import { DogSearch, Region } from '../../types/search';
 import { MAX_ZIPS } from '../../constants';
 import styles from './searchform.module.scss'
+import useErrorHandler from '../../hooks/useErrorHandler';
 
 type SearchFormProps = {
   updateDogsSearch: (data: DogSearch) => void;
@@ -33,6 +34,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByB
   }>()
   const [totalNumberOfZips, setTotalNumberOfZips] = useState<number>(0)
   const zipCodes = useRef<string[]>([])
+  const { handle } = useErrorHandler()
 
   const setAgeData = (e: ChangeEvent<HTMLInputElement>) => {
     setAge({
@@ -64,6 +66,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByB
       { key: 'breed', direction: sortResultByBreedAsc ? 'asc' : 'desc' }
     )
 
+    handle(searchResults)
     updateDogsSearch(searchResults.data)
     setIsLoading(false)
   }
@@ -71,6 +74,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByB
   useEffect(() => {
     const loadBreeds = async () => {
       const res = await getBreeds()
+      handle(res)
       setBreedsArr(res.data.map(breed => ({
         value: breed,
         label: breed
@@ -83,7 +87,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByB
         [],
         { min: '', max: '' }
       )
-
+      handle(searchResults)
       updateDogsSearch(searchResults.data)
     }
 
@@ -104,11 +108,11 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch, sortResultByB
     const loadZips = async () => {
       if (region?.northEast && region?.southWest) {
         const zipCodeRes = await getZipcodes(region?.northEast, region?.southWest)
+        handle(zipCodeRes)
         setTotalNumberOfZips(zipCodeRes.data.total)
         zipCodes.current = zipCodeRes.data.results
       }
     }
-
     loadZips()
   }, [
     region?.northEast,

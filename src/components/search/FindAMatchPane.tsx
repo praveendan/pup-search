@@ -4,6 +4,7 @@ import { Hearts } from "react-bootstrap-icons";
 import MatchResultModal from "./MatchResultModal";
 import { findMatch } from "../../api/searchService";
 import { Dog } from "../../types/search";
+import useErrorHandler from "../../hooks/useErrorHandler";
 
 type FindAMatchPaneProps = {
   favourites: Set<string>;
@@ -19,9 +20,11 @@ const FindAMatchPane: React.FC<FindAMatchPaneProps> = ({ favourites }) => {
     name: '',
     zip_code: ''
   })
+  const { handle } = useErrorHandler()
 
   const loadMatch = async () => {
     const res = await findMatch(Array.from(favourites))
+    handle(res)
     setMatch(res.data.results[0])
     setModalShow(true)
   }

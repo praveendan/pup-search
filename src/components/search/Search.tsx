@@ -8,6 +8,7 @@ import { MAX_SEARCH_RES_PER_PAGE } from "../../constants";
 import { getOtherPageResults } from "../../api/searchService";
 import FindAMatchPane from "./FindAMatchPane";
 import Loader from "../shared/Loader";
+import useErrorHandler from "../../hooks/useErrorHandler";
 
 const Search: React.FC = () => {
   const [dogs, setDogs] = useState<DogSearch>({
@@ -17,11 +18,13 @@ const Search: React.FC = () => {
   const [favourites, setFavourites] = useState<Set<string>>(new Set())
   const [isPageBusy, setIsPageBusy] = useState(true)
   const [sortResultByBreedAsc, setSortResultByBreedAsc] = useState('true')
+  const { handle } = useErrorHandler()
 
   const pageForward = async () => {
     if (dogs.next) {
       setIsPageBusy(true)
       const res = await getOtherPageResults(dogs.next)
+      handle(res)
       setDogs(res.data)
       setIsPageBusy(false)
     }
@@ -31,6 +34,7 @@ const Search: React.FC = () => {
     if (dogs.back) {
       setIsPageBusy(true)
       const res = await getOtherPageResults(dogs.back)
+      handle(res)
       setDogs(res.data)
       setIsPageBusy(false)
     }
