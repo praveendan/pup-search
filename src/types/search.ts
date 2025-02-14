@@ -14,8 +14,8 @@ interface Dog {
 
 interface DogSearch {
   results: Dog[];
-  next: string;
-  back: string;
+  next?: string;
+  back?: string;
   total: number;
 }
 

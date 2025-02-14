@@ -135,8 +135,18 @@ const getDogSearchResults = async (
 
     response.data = {
       results: dogDataRes.data,
-      next: res.data.next || '',
-      back: res.data.back || '',
+      total: res.data.total
+    }
+
+    if (res.data.next) {
+      response.data.next = res.data.next
+    }
+
+  } catch (error: any) {
+    handleErrorRes(error, response)
+  }
+  return response
+}
       total: res.data.total
     }
 
