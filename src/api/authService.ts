@@ -16,11 +16,11 @@ const login = async (name: string, email: string) => {
       },
       withCredentials: true
     })
-    response.data = res
+    response.resData = res
 
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
-      response.data = error.response
+      response.resData = error.response
     }
     response.message = error.message
   }
