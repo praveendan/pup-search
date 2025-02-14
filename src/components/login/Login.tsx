@@ -1,11 +1,12 @@
 import { Row, Col, Button, Form, Image } from "react-bootstrap";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import styles from './login.module.scss';
 
 import { User } from "../../types/user";
-import { login } from "../../api/authService";
 import { EMAIL_REGEX } from "../../constants";
+import { login } from "../../api/authService";
 import { useAuth } from "../../context/AuthContext";
 
 type FormValidity = {
@@ -24,6 +25,7 @@ const Login: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const { logInUser } = useAuth()
+  const navigate = useNavigate();
 
   const setFormData = (e: ChangeEvent<HTMLInputElement>) => {
     setFormVals({
@@ -64,6 +66,7 @@ const Login: React.FC = () => {
       })
     }
     logInUser()
+    navigate("/")
     setIsLoading(false)
   }
 

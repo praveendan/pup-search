@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 type AuthContextProps = {
   isLoggedIn: boolean;
@@ -10,6 +10,8 @@ type AuthProviderProps = {
   children: ReactNode;
 }
 
+const LOCAL_STORAGE_KEY = 'isUserOn'
+
 const AuthContext = createContext<AuthContextProps>({
   isLoggedIn: false,
   logOutUser: () => { },
@@ -17,14 +19,16 @@ const AuthContext = createContext<AuthContextProps>({
 });
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem(LOCAL_STORAGE_KEY));
 
   const logInUser = () => {
     setIsLoggedIn(true);
+    localStorage.setItem(LOCAL_STORAGE_KEY, 'true')
   };
 
   const logOutUser = () => {
     setIsLoggedIn(false);
+    localStorage.removeItem(LOCAL_STORAGE_KEY)
   };
 
   return (
