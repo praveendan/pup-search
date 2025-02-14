@@ -21,6 +21,8 @@ const Login: React.FC = () => {
     name: true,
     email: true
   })
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const { logInUser } = useAuth()
 
   const setFormData = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +55,16 @@ const Login: React.FC = () => {
   }
 
   const handleLogin = async () => {
+    setIsLoading(true)
+    const loginRes = await login(formVal.name, formVal.email)
+    if (loginRes.data?.status === 400) {
+      setIsFormFieldsValid({
+        name: false,
+        email: false
+      })
+    }
+    logInUser()
+    setIsLoading(false)
   }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -105,7 +117,7 @@ const Login: React.FC = () => {
           <Form.Group className="mb-3" controlId="keepMeLoggedInCheckbox">
             <Form.Check type="checkbox" label="Keep me logged in" />
           </Form.Group>
-          <Button variant="primary" type="submit" className='fw-bold' onClick={handleSubmit}>
+          <Button variant="primary" type="submit" className='fw-bold' disabled={isLoading}>
             Login
           </Button>
         </Form>

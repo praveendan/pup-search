@@ -1,25 +1,35 @@
-import axios from "axios"
-import { ENDPOINT } from "../constants"
+import axios, { AxiosResponse } from "axios";
+import { ENDPOINT } from "../constants";
 
-const login = async (name: string, email:string) => {
+interface ServiceResponse {
+  message?: string;
+  data?: AxiosResponse<any, any>;
+}
 
-  const res = await axios.post(ENDPOINT + '/auth/login', {
-    name,
-    email
-  }, {
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    withCredentials: true
-  })
-  console.log(res)
+const login = async (name: string, email: string) => {
+  let response: ServiceResponse = { }
 
-  if (res.status === 200) {
-    //good stuff
+  try {
+    const res = await axios.post(ENDPOINT + '/auth/login', {
+      name,
+      email
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      // withCredentials: true
+    })
+    response.data = res
+
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      if (error.status === 400) {
+        response.data = error.response
+      }
+    }
+    response.message = error.message
   }
-  if (res.status === 400) {
-    //bad userName PW
-  }
+  return response
 }
 
 export {
