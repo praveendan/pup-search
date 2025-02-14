@@ -1,7 +1,10 @@
 import Select, { MultiValue } from 'react-select';
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { getBreeds } from '../../api/searchService';
+import { getBreeds, getZipcodes } from '../../api/searchService';
+import SearchMap from './SearchMap';
+import { LatLng } from 'leaflet';
+import { Region } from '../../types/search';
 
 const SearchForm: React.FC = () => {
   const [breedsArr, setBreedsArr] = useState<MultiValue<{ value: string; label: string; }>>([])
@@ -14,6 +17,10 @@ const SearchForm: React.FC = () => {
     minAge: '0',
     maxAge: ''
   })
+  const [region, setRegion] = useState<{
+    northEast: Region;
+    southWest: Region
+  }>()
 
   const setAgeData = (e: ChangeEvent<HTMLInputElement>) => {
     setAge({
@@ -21,6 +28,19 @@ const SearchForm: React.FC = () => {
       [e.target.name]: e.target.value
     })
   }
+
+  const setBoundingBox = useCallback((northEast: LatLng, southWest: LatLng) => {
+    setRegion({
+      northEast: {
+        lat: northEast.lat,
+        lng: northEast.lng
+      },
+      southWest: {
+        lat: southWest.lat,
+        lng: southWest.lng
+      }
+    })
+  }, [])
 
   useEffect(() => {
     const loadBreeds = async () => {
@@ -33,6 +53,22 @@ const SearchForm: React.FC = () => {
 
     loadBreeds()
   }, [])
+
+  useEffect(() => {
+    const loadZips = async () => {
+      if (region?.northEast && region?.southWest) {
+        await getZipcodes(region?.northEast, region?.southWest)
+      }
+    }
+
+    loadZips()
+  }, [
+    region?.northEast,
+    region?.southWest
+  ])
+
+
+  console.log(selectedBreeds)
   return (
     <Form>
       <Form.Group className="mb-3" controlId="breedsSelect">
@@ -49,16 +85,8 @@ const SearchForm: React.FC = () => {
         />
       </Form.Group>
       <Form.Group className="mb-3" controlId="zipSelect">
-        <Form.Label>Select Zipcode</Form.Label>
-        <Select
-          options={options}
-          isMulti
-          name="zipcode"
-          className="basic-multi-select"
-          classNamePrefix="select"
-          onChange={_ => { }}
-          placeholder="Search and select options..."
-        />
+        <Form.Label>Select Area</Form.Label>
+        <SearchMap setBoundingBox={setBoundingBox } />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="ageRange">
