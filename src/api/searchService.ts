@@ -12,7 +12,7 @@ const handleErrorRes = (error: any, response: ServiceResponse) => {
 
 /**
  * 
- * @returns a string array of dog breeds
+ * @returns a promise that resolves into string array of dog breeds
  */
 const getBreeds = async () => {
   interface BreedRes extends ServiceResponse {
@@ -43,7 +43,7 @@ const getBreeds = async () => {
  * 
  * @param northEast lat long of north East corner
  * @param southWest lat long of south West corner
- * @returns 
+ * @returns a promise that resolves into zipcode array and the number of results
  */
 const getZipcodes = async (northEast: Region, southWest: Region ) => {
   interface ZipCodeRes extends ServiceResponse {
