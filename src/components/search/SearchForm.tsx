@@ -71,8 +71,22 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateDogsSearch }) => {
       })))
     }
 
-    loadBreeds()
-  }, [])
+    const loadAllDogs = async () => {
+      const searchResults = await getDogSearchResults(
+        [],
+        [],
+        { min: '', max: '' }
+      )
+
+      updateDogsSearch(searchResults.data)
+    }
+
+    
+    Promise.all([
+      loadBreeds(),
+      loadAllDogs()
+    ])
+  }, [updateDogsSearch])
 
   useEffect(() => {
     const loadZips = async () => {
