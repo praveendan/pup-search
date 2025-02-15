@@ -125,9 +125,6 @@ const Login: React.FC = () => {
               aria-label="Enter your email address"
               />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="keepMeLoggedInCheckbox">
-            <Form.Check type="checkbox" label="Keep me logged in" />
-          </Form.Group>
           <Button variant="primary" type="submit" className='fw-bold' disabled={isLoading}>
             Login
           </Button>
