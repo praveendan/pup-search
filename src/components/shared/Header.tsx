@@ -16,7 +16,7 @@ const Header: React.FC = () => {
     <header className="row fw-bold sticky-top">
       <Navbar expand="lg" bg="primary" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/pup-search">
             <Image src="img/nav-logo.svg" rounded />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
