@@ -11,7 +11,7 @@ function App() {
       <Container fluid className='min-vh-100'>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route index path="/" element={<PrivateRoute><Search /></PrivateRoute>} />
+          <Route path="/" element={<PrivateRoute><Search /></PrivateRoute>} />
         </Routes>
       </Container>
     </AuthProvider>
